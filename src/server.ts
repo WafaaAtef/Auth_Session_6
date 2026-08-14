@@ -1,20 +1,25 @@
-import dotenv from "dotenv"
-import express from "express"
-import {router} from "./routes/routes"
-import cookieparser from "cookie-parser"
-dotenv.config()
-const Port = process.env.PORT || 3000
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import {router} from "./routes/userRoutes";
+import cookieParser from "cookie-parser";
 
-const app =express()
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.use(cookieParser());
+app.use(express.json());
+app.use("/auth",router);
 
+mongoose.connect(process.env.MONGO_URI as string)
+  .then(() => {
+    console.log('Connected to MongoDB Atlas!');
+    app.listen(PORT, () => {
+      console.log(`Server running on port: ${PORT}`);
+    });
+  })
 
-app.use(cookieparser())
-app.use(express.json())
-
-app.use("/auth", router)
-
-app.listen(Port ,() => {
-console.log (`server is runnimg on port ${Port}`)
-}
-)
-
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err.message);
+    process.exit(1);
+  });
