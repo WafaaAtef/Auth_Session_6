@@ -5,16 +5,32 @@ import { nextTick } from "node:process";
 const auth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.token;
     if (!token) {
-        return res.status(401).json({ msg: "Unauthorized" })
+        return res.status(401).json({ msg: "Unauthenticated" })
     }
     try {
         const verify = jwt.verify(token, process.env.JWT_SECRET as string)
         if (!verify) {
-            return res.status(401).json({ msg: "unauthorized" })
+            return res.status(401).json({ msg: "Unauthenticated" })
         }
         next();
     } catch {
         return res.status(401).json({ msg: "Invalid token" })
     }
 }
-export {auth}
+
+const authorize = (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies?.token;
+    if (!token) {
+        return res.status(401).json({ msg: "Unauthenticated" })
+    }
+    try {
+        const verify = jwt.verify(token, process.env.JWT_SECRET as string) as { role: string }
+        if (verify.role !== "admin") {
+            return res.status(403).json({ msg: "Unauthorized" })
+        }
+        next();
+    } catch {
+        return res.status(401).json({ msg: "Invalid token" })
+    }
+}
+export {auth, authorize}

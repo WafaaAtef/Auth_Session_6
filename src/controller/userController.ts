@@ -91,4 +91,8 @@ const profile = (req: Request, res: Response) => {
   res.status(200).json({ msg: "you are authenticated" });
 }
 
-export { signUp, signIn, signOut, profile};
+const adminPanel = (req: Request, res: Response) => {
+  res.status(200).json({ msg: "Welcome to the admin panel" });
+}
+
+export { signUp, signIn, signOut, profile, adminPanel };
