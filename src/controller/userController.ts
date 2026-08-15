@@ -91,8 +91,12 @@ const profile = (req: Request, res: Response) => {
   res.status(200).json({ msg: "you are authenticated" });
 }
 
-const adminPanel = (req: Request, res: Response) => {
-  res.status(200).json({ msg: "Welcome to the admin panel" });
+const DeleteUser = async (req: Request, res: Response) => {
+  res.status(200).json({ msg: "User deleted successfully" });
 }
 
-export { signUp, signIn, signOut, profile, adminPanel };
+const ShowAllUsers = async (req: Request, res: Response) => {
+  res.status(200).json({ msg: "All users retrieved successfully" });
+}
+
+export { signUp, signIn, signOut, profile, DeleteUser, ShowAllUsers };
