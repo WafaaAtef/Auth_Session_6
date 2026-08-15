@@ -1,4 +1,4 @@
-## Session 9 — Authentication & Authorization (Using Fake Database)
+## Session 9 — Authentication & Authorization
 
 ---
 # Agenda
